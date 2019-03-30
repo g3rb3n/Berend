@@ -4,7 +4,7 @@ Just 4 servos that can be controlled at the same time.
 ``` cpp
 #include "Berend.h"
 
-Berend berend;
+Berend berend(12, 13);
 
 void setup() {
     //right foot, left foot, right hip, left hip
