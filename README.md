@@ -1,4 +1,5 @@
 # Berend  Library
+Just 4 servos that can be controlled at the same time.
 
 ``` cpp
 #include "Berend.h"
@@ -39,8 +40,8 @@ void loop() {
     if(servo.done())
     {
         angle = -angle;
-        servo.set(angle, 10); //Move the servo to 50 degrees with 10 ms steps.
+        servo.set(angle, 10); //Move the servo to angle with 10 ms steps.
     }
-    //Do other stuff
+    //Do other stuff that requires minimal amounts of time
 }
 ```

@@ -1,0 +1,98 @@
+#include "SmoothServo.h"
+
+SmoothServo lh(true);
+SmoothServo lf(true);
+SmoothServo rh(false);
+SmoothServo rf(false);
+
+int calibrate_rf = 95;
+int calibrate_lf = 105;
+int calibrate_lh = 90;
+int calibrate_rh = 90;
+
+int foot_balance = 30;
+int foot_push = 80;
+
+bool allDone(){
+    //Serial.println("all done?");
+    //Serial.println(lh.done());
+    //Serial.println(rh.done());
+    //Serial.println(lf.done());
+    //Serial.println(rf.done());
+
+    return lh.done()
+        && rh.done()
+        && lf.done()
+        && rf.done();
+}
+
+void update(){
+    long now = millis();
+    lh.update(now);
+    rh.update(now);
+    lf.update(now);
+    rf.update(now);
+}
+
+void waitTillAllDone(){
+    Serial.println("Wait for all done");
+    while(!allDone()){
+        update();
+    }
+    Serial.println("All done");
+}
+
+void setup() {
+  Serial.begin(9600);
+  rf.attach(8);
+  lf.attach(9);
+  rh.attach(11);
+  lh.attach(12);
+  lh.calibrate(calibrate_lh);
+  lf.calibrate(calibrate_lf);
+  rh.calibrate(calibrate_rh);
+  rf.calibrate(calibrate_rf);
+  lh.set(0);
+  lf.set(0);
+  rh.set(0);
+  rf.set(0);
+  while (!allDone()){
+      update();
+  }
+  delay(10000);
+}
+
+void loop() {
+    Serial.println("Loop");
+    balance_left_right();
+    //step_forward();
+    //stepforward(10);
+    //delay(10000);
+}
+
+void balance_lf(){
+    lf.set(foot_balance, 20);
+    rf.set(-foot_push, 4);
+    waitTillAllDone();
+}
+
+void balance_rf(){
+    rf.set(foot_balance, 20);
+    lf.set(-foot_push, 4);
+    waitTillAllDone();
+}
+
+void rest(){
+    rf.set(0);
+    lf.set(0);
+    waitTillAllDone();
+}
+
+void balance_left_right(){
+  balance_lf();
+  delay(200);
+  rest();
+  balance_rf();
+  delay(200);
+  rest();
+}
