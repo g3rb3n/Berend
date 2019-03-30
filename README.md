@@ -1,5 +1,15 @@
 # Berend  Library
-Just 4 servos that can be controlled at the same time.
+4 servos that can be controlled at the same time. With HC-SR04 for avoidance behavior.
+
+See examples:
+ * BerendWalks Berend walks straight
+ * BerendAvoidsObstacles Berend walks straight up till encountering an obstacle.
+ * TestTurnLeft Berend turns left
+ * TestTurnRight Berend turns right
+ * TestRestPosition Berend calibrated at rest, use this to make sure that the rest angles are proper.
+ * TestPositiveAngle Berend has inverted angles for left and right, leftFoot.set(10) and rightFoot.set(10) makes the foot turn upwards.
+ * CmdMoves Control Berend from the command line, to test all the different moves.
+
 
 ``` cpp
 #include "Berend.h"
